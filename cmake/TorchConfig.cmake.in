@@ -130,14 +130,14 @@ endif()
 if(@USE_CUDA@)
   if(MSVC)
     if(NOT NVTOOLEXT_HOME)
-      set(NVTOOLEXT_HOME "C:/Program Files/NVIDIA Corporation/NvToolsExt")
+      set(NVTOOLEXT_HOME "C:/Program Files/NVIDIA Corporation/Nsight Compute 2023.2.2/host/target-windows-x64/nvtx")
     endif()
     if(DEFINED ENV{NVTOOLSEXT_PATH})
       set(NVTOOLEXT_HOME $ENV{NVTOOLSEXT_PATH})
     endif()
-    set(TORCH_CUDA_LIBRARIES
-      ${NVTOOLEXT_HOME}/lib/x64/nvToolsExt64_1.lib
-      ${CUDA_LIBRARIES})
+#    set(TORCH_CUDA_LIBRARIES
+#      ${NVTOOLEXT_HOME}/lib/x64/nvToolsExt64_1.lib
+#      ${CUDA_LIBRARIES})
     list(APPEND TORCH_INCLUDE_DIRS ${NVTOOLEXT_HOME}/include)
     find_library(CAFFE2_NVRTC_LIBRARY caffe2_nvrtc PATHS "${TORCH_INSTALL_PREFIX}/lib")
     list(APPEND TORCH_CUDA_LIBRARIES ${CAFFE2_NVRTC_LIBRARY})

@@ -137,6 +137,7 @@ class CMake:
             # Everything's in place. Do not rerun.
             return
 
+        # args = ["--trace-source=FindCUDAToolkit.cmake"]
         args = []
         if USE_NINJA:
             # Avoid conflicts in '-G' and the `CMAKE_GENERATOR`
