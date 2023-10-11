@@ -305,7 +305,7 @@ class GradScaler:
         found_inf = torch.full((), 0.0, dtype=torch.float32, device=self._scale.device)
 
         optimizer_state["found_inf_per_device"] = self._unscale_grads_(
-            optimizer, inv_scale, found_inf, False
+            optimizer, inv_scale, found_inf, True
         )
         optimizer_state["stage"] = OptState.UNSCALED
 
