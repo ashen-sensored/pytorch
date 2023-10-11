@@ -47,10 +47,12 @@ if sys.platform == "win32":
         cuda_path = os.path.join(os.getenv(cuda_path_var, default_path), 'bin')
     else:
         cuda_path = ''
+    
+    cupti_path = os.path.join(os.getenv(cuda_path_var, default_path), 'extras', 'CUPTI', 'lib64')
 
     import ctypes
     kernel32 = ctypes.WinDLL('kernel32.dll', use_last_error=True)
-    dll_paths = list(filter(os.path.exists, [th_dll_path, py_dll_path, nvtoolsext_dll_path, cuda_path]))
+    dll_paths = list(filter(os.path.exists, [th_dll_path, py_dll_path, nvtoolsext_dll_path, cuda_path, cupti_path]))
     with_load_library_flags = hasattr(kernel32, 'AddDllDirectory')
     prev_error_mode = kernel32.SetErrorMode(0x0001)
 
