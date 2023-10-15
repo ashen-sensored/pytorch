@@ -286,6 +286,20 @@ if(CAFFE2_USE_CUSPARSELT)
     add_library(torch::cusparselt INTERFACE IMPORTED)
     target_include_directories(torch::cusparselt INTERFACE ${CUSPARSELT_INCLUDE_PATH})
     target_link_libraries(torch::cusparselt INTERFACE ${CUSPARSELT_LIBRARY_PATH})
+    message(STATUS "CUSPARSELT_INCLUDE_PATH: ${CUSPARSELT_INCLUDE_PATH}")
+    message(STATUS "CUSPARSELT_LIBRARY_PATH: ${CUSPARSELT_LIBRARY_PATH}")
+
+    message(STATUS " env CUSPARSELT_ROOT:  $ENV{CUSPARSELT_ROOT}")
+    find_file(CUSPARSELT_DLLS
+        cusparseLt.dll
+        PATHS $ENV{CUSPARSELT_ROOT}
+        PATH_SUFFIXES lib)
+        
+    message(STATUS "CUSPARSELT_DLLS: ${CUSPARSELT_DLLS}")
+
+    if(CUSPARSELT_DLLS)
+      install(FILES ${CUSPARSELT_DLLS} DESTINATION lib)
+    endif()
   endif()
 else()
   message(STATUS "USE_CUSPARSELT is set to 0. Compiling without cuSPARSELt support")

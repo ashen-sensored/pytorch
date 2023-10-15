@@ -137,7 +137,7 @@ class CMake:
             # Everything's in place. Do not rerun.
             return
 
-        # args = ["--trace-source=FindCUDAToolkit.cmake"]
+        # args = ["--trace-source=FindCUSPARSELT.cmake"]
         args = []
         if USE_NINJA:
             # Avoid conflicts in '-G' and the `CMAKE_GENERATOR`
@@ -311,6 +311,7 @@ class CMake:
             PYTHON_EXECUTABLE=sys.executable,
             PYTHON_LIBRARY=cmake_python_library,
             PYTHON_INCLUDE_DIR=sysconfig.get_path("include"),
+            PYTHON_DEBUG_LIBRARY=cmake_python_library,  # force debug build to use the release python library
             TORCH_BUILD_VERSION=version,
             NUMPY_INCLUDE_DIR=NUMPY_INCLUDE_DIR,
             **build_options,

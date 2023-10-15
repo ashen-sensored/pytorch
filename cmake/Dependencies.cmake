@@ -1407,7 +1407,8 @@ if(USE_GLOO)
     caffe2_update_option(USE_GLOO OFF)
   else()
     # Don't install gloo
-    set(GLOO_INSTALL OFF CACHE BOOL "" FORCE)
+    # why.....
+    set(GLOO_INSTALL ON CACHE BOOL "" FORCE)
     set(GLOO_STATIC_OR_SHARED STATIC CACHE STRING "" FORCE)
 
     # Temporarily override variables to avoid building Gloo tests/benchmarks

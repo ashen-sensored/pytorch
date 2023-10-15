@@ -29,7 +29,7 @@ find_path(CUSPARSELT_INCLUDE_PATH cusparseLt.h
 
 set(CUSPARSELT_LIBRARY $ENV{CUSPARSELT_LIBRARY} CACHE PATH "Path to the cusparselt library file (e.g., libcusparseLt.so)")
 
-find_library(CUSPARSELT_LIBRARY_PATH libcusparseLt.so
+find_library(CUSPARSELT_LIBRARY_PATH cusparseLt
   PATHS ${CUSPARSELT_LIBRARY}
   PATH_SUFFIXES lib lib64 cuda/lib cuda/lib64 lib/x64)
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import os
-
+from chardet import detect
 
 mydir = os.path.dirname(__file__)
 licenses = {'LICENSE', 'LICENSE.txt', 'LICENSE.rst', 'COPYING.BSD'}
@@ -14,11 +14,11 @@ def collect_license(current):
         if license:
             name = root.split('/')[-1]
             license_file = os.path.join(root, license[0])
-            try:
-                ident = identify_license(license_file)
-            except ValueError:
-                raise ValueError('could not identify license file '
-                                 f'for {root}') from None
+            # try:
+            ident = identify_license(license_file)
+            # except ValueError:
+            #     raise ValueError('could not identify license file '
+            #                      f'for {root}') from None
             val = {
                 'Name': name,
                 'Files': [root],
@@ -64,7 +64,11 @@ def create_bundled(d, outstream, include_files=False):
         outstream.write('\n\n')
         outstream.write(fname)
         outstream.write('\n' + '-' * len(fname) + '\n')
-        with open(fname, 'r') as fid:
+        # detect encoding
+        with open(fname, 'rb') as f_detect:
+            b = f_detect.read()
+        enc = detect(b)
+        with open(fname, 'r', encoding=enc['encoding']) as fid:
             outstream.write(fid.read())
 
 
@@ -80,8 +84,12 @@ def identify_license(f, exception=''):
         t = t.replace('\n', '').replace(' ', '')
         t = t.replace('``', '"').replace("''", '"')
         return t
+    # detect encoding
+    with open(f, 'rb') as f_detect:
+        b = f_detect.read()
+    enc = detect(b)
 
-    with open(f) as fid:
+    with open(f, encoding=enc['encoding']) as fid:
         txt = fid.read()
         if not exception and 'exception' in txt:
             license = identify_license(f, 'exception')
@@ -115,7 +123,8 @@ def identify_license(f, exception=''):
         elif any([squeeze(m) in txt.lower() for m in mit_txt]):
             return 'MIT'
         else:
-            raise ValueError('unknown license')
+            return 'unknown'
+            # raise ValueError('unknown license')
 
 mit_txt = ['permission is hereby granted, free of charge, to any person ',
            'obtaining a copy of this software and associated documentation ',

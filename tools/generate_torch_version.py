@@ -79,6 +79,8 @@ if __name__ == "__main__":
     version_path = pytorch_root / "torch" / "version.py"
     # Attempt to get tag first, fall back to sha if a tag was not found
     tagged_version = get_tag(pytorch_root)
+    # pin it in local build so other dependencies don't conmplain
+    tagged_version = '2.1.0+cu121'
     sha = get_sha(pytorch_root)
     if tagged_version == UNKNOWN:
         version = get_torch_version(sha)

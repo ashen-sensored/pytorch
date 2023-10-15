@@ -312,18 +312,21 @@ third_party_path = os.path.join(cwd, "third_party")
 caffe2_build_dir = os.path.join(cwd, "build")
 
 # CMAKE: full path to python library
+python_lib_suffix = ''
+# if build_type.is_debug():
+#     python_lib_suffix = '_d'
 if IS_WINDOWS:
     cmake_python_library = "{}/libs/python{}.lib".format(
-        sysconfig.get_config_var("prefix"), sysconfig.get_config_var("VERSION")
+        sysconfig.get_config_var("prefix"), sysconfig.get_config_var("VERSION") + python_lib_suffix
     )
     # Fix virtualenv builds
     if not os.path.exists(cmake_python_library):
         cmake_python_library = "{}/libs/python{}.lib".format(
-            sys.base_prefix, sysconfig.get_config_var("VERSION")
+            sys.base_prefix, sysconfig.get_config_var("VERSION") + python_lib_suffix
         )
 else:
     cmake_python_library = "{}/{}".format(
-        sysconfig.get_config_var("LIBDIR"), sysconfig.get_config_var("INSTSONAME")
+        sysconfig.get_config_var("LIBDIR"), sysconfig.get_config_var("INSTSONAME") + python_lib_suffix
     )
 cmake_python_include_dir = sysconfig.get_path("include")
 
@@ -1013,7 +1016,9 @@ def configure_extension_build():
     if not cmake_cache_vars["BUILD_NVFUSER"]:
         excludes.extend(["nvfuser", "nvfuser.*"])
     packages = find_packages(exclude=excludes)
+    # debug_extension_suffix = '_d' if build_type.is_debug() else ''
     C = Extension(
+        # "torch._C" + debug_extension_suffix,
         "torch._C",
         libraries=main_libraries,
         sources=main_sources,

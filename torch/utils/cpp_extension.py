@@ -745,7 +745,10 @@ class BuildExtension(build_ext):
                             cflags = self.cflags
                         else:
                             cflags = []
-
+                        # global COMMON_MSVC_FLAGS
+                        # if self.debug:
+                        #     COMMON_MSVC_FLAGS = ['/MDd' if flag == '/MD' else flag for flag in COMMON_MSVC_FLAGS]
+                        
                         cflags = win_cuda_flags(cflags) + ['-std=c++17', '--use-local-env']
                         for flag in COMMON_MSVC_FLAGS:
                             cflags = ['-Xcompiler', flag] + cflags
